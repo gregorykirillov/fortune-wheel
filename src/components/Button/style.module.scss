@@ -1,0 +1,31 @@
+.button {
+  display: inline-block;
+  font-size: 16px;
+
+  padding: 15px 20px;
+
+  border: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+
+  text-rendering: auto;
+  text-align: center;
+  color: initial;
+  background: #0468ff;
+  
+  font-family: inherit;
+  font-weight: 500;
+  color: #fff;
+
+  transition: .3s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #0661ec;
+}
+
+.button:disabled {
+  background: #ced1d7;
+}

@@ -1,0 +1,40 @@
+h1, p, span {
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  min-height: inherit;
+  gap: 10px;
+
+  font-family: 'Lato', sans-serif;
+}
+
+.itemsContainer {  
+  height: 60px;
+  overflow-y: hidden;
+
+  mask-image: linear-gradient(0deg, #000 60%, transparent),
+  linear-gradient(180deg, #000 60%, transparent);
+  mask-composite: destination-in;
+  /* -webkit-mask-image:
+    linear-gradient(0deg, #000 60%, transparent),
+    linear-gradient(180deg, #000 60%, transparent);
+  -webkit-mask-composite: destination-in; */
+
+  animation: ease-in-out;
+}
+
+.itemBlocks {
+  width: max-content;
+  margin-top: -12px;
+}
+
+.winText.italic {
+  font-style: italic;
+}
