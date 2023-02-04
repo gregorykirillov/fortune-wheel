@@ -15,14 +15,8 @@ export const FortuneContext = createContext<any>(null);
 
 const FortuneWheel = () => {
   const [wonItem, setWonItem] = useState<Element | null>(null);
-  const visibleItems = useMemo<Array<Element>>(() => [], []);
   const [isLoading, setLoading] = useState(true);
-
   const [data, setData] = useState<Array<Element>>([]);
-
-  const itemsRef = useRef<HTMLDivElement | null>(null);
-  const itemsBlockRef = useRef<HTMLDivElement | null>(null);
-
   const [blockHeight, setBlockHeight] = useState(0);
   const [blocks, setBlocks] = useState<Array<JSX.Element>>([]);
   const [rouletteState, setRouletteState] = useState<RouletteState>({
@@ -30,15 +24,10 @@ const FortuneWheel = () => {
     finished: false,
   });
 
-  const setElementTransition = () => {
-    const { current } = itemsRef;
+  const visibleItems = useMemo<Array<Element>>(() => [], []);
 
-    current?.style.setProperty("transition", `all ease-in-out ${TIME}s`);
-  };
-
-  const sortData = (data: Array<Element>) => {
-    return data.sort(() => 0.5 - Math.random());
-  };
+  const itemsRef = useRef<HTMLDivElement | null>(null);
+  const itemsBlockRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     axios.get(getApiUrl("/get-variants")).then((response) => {
@@ -48,8 +37,6 @@ const FortuneWheel = () => {
       setData(NEED_SORT_DATA ? sortData(data) : data);
     });
   }, []);
-
-  useEffect(() => {});
 
   useEffect(() => {
     if (!itemsRef) return;
@@ -83,6 +70,15 @@ const FortuneWheel = () => {
     }
     if (visibleItems[WIN_ITEM_NUM]) setWonItem(visibleItems[WIN_ITEM_NUM]);
   }, [rouletteState]);
+
+  const setElementTransition = () => {
+    const { current } = itemsRef;
+
+    current?.style.setProperty("transition", `all ease-in-out ${TIME}s`);
+  };
+
+  const sortData = (data: Array<Element>) =>
+    data.sort(() => 0.5 - Math.random());
 
   const addBlocks = (itemsHeight: number, blockHeight: number) => {
     const insufficientCount = Math.ceil(itemsHeight / blockHeight);
@@ -127,16 +123,15 @@ const FortuneWheel = () => {
             </div>
           </div>
         )}
-        {wonItem && (
-          <p
-            className={cn(style.winText, {
-              [style.italic]: wonItem.title.includes("(c)"),
-              [style.red]: wonItem.isBonus,
-            })}
-          >
-            {wonItem.title}
-          </p>
-        )}
+        <p
+          className={cn(style.winText, {
+            [style.active]: wonItem,
+            [style.italic]: wonItem?.title.includes("(c)"),
+            [style.red]: wonItem?.isBonus,
+          })}
+        >
+          {wonItem?.title}
+        </p>
         <Button
           onClick={handleStart}
           disabled={rouletteState.started || isLoading}
