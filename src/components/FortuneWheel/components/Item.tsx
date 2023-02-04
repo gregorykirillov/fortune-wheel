@@ -1,8 +1,9 @@
 import { useContext, useRef, useEffect } from "react";
 
-import { FortuneContext, RouletteState } from "..";
-import { useIsVisible } from "../../../hooks/useIsVisible";
+import { FortuneContext } from "..";
+import { useIsVisible } from "@/hooks/useIsVisible";
 import { Element } from "../types/Element";
+import { RouletteState } from "../types/RouletteState";
 
 import style from "./style.module.scss";
 
@@ -29,7 +30,8 @@ const Item = ({ element, elementsCount, index }: Props) => {
       isItemVisible &&
       visibleItems.push({
         id: 0,
-        text: ref.current.textContent || "",
+        title: element.title,
+        isBonus: element.isBonus,
       });
   }, [rouletteState.finished, isItemVisible]);
 
@@ -39,7 +41,7 @@ const Item = ({ element, elementsCount, index }: Props) => {
       className={style.item}
       key={element.id}
     >
-      {element.text}
+      {element.title}
     </p>
   );
 };

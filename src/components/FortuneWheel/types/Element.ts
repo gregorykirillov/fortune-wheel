@@ -1,5 +1,5 @@
 export type Element = {
   id: number;
-  text: string;
+  title: string;
   isBonus?: boolean;
 };

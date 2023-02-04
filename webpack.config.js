@@ -16,7 +16,7 @@ module.exports = {
   resolve: {
     modules: [path.join(__dirname, "src"), "node_modules"],
     alias: {
-      "@": path.join(__dirname, "../src"),
+      "@": path.join(__dirname, "src"),
       react: path.join(__dirname, "node_modules", "react"),
     },
     extensions: [".js", ".ts", ".tsx", ".css", ".scss"],
@@ -70,6 +70,9 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./public/index.html",
+    }),
+    new DefinePlugin({
+      SERVER_ORIGIN: "'http://localhost:5000'",
     }),
   ],
 };
