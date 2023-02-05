@@ -1,23 +1,23 @@
 import React from "react";
 
 import Item from "./Item";
-import { Element } from "../types/Element";
+import { Variant } from "../types/Variant";
 
 type Props = {
   reference: React.MutableRefObject<HTMLDivElement | null>;
-  elements: Array<Element>;
+  variants: Array<Variant>;
   index?: number;
-  elementsCount?: number;
+  variantsCount?: number;
 };
 
-const ItemsBlock = ({ reference, elements, index, elementsCount }: Props) => {
+const ItemsBlock = ({ reference, variants, index, variantsCount }: Props) => {
   return (
     <div ref={reference}>
-      {elements.map((element) => (
+      {variants.map((variant) => (
         <Item
-          key={element.id}
-          element={element}
-          elementsCount={elementsCount}
+          key={variant.id}
+          variant={variant}
+          variantsCount={variantsCount}
           index={index}
         />
       ))}

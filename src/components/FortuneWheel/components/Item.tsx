@@ -2,22 +2,22 @@ import { useContext, useRef, useEffect } from "react";
 
 import { FortuneContext } from "..";
 import { useIsVisible } from "@/hooks/useIsVisible";
-import { Element } from "../types/Element";
+import { Variant } from "../types/Variant";
 import { RouletteState } from "../types/RouletteState";
 
 import style from "./style.module.scss";
 
 type Props = {
   index?: number;
-  elementsCount?: number;
-  element: Element;
+  variantsCount?: number;
+  variant: Variant;
 };
 
-const Item = ({ element, elementsCount, index }: Props) => {
+const Item = ({ variant, variantsCount, index }: Props) => {
   const {
     visibleItems,
     rouletteState,
-  }: { visibleItems: Array<Element>; rouletteState: RouletteState } =
+  }: { visibleItems: Array<Variant>; rouletteState: RouletteState } =
     useContext(FortuneContext);
 
   const ref = useRef<HTMLParagraphElement | null>(null);
@@ -30,18 +30,23 @@ const Item = ({ element, elementsCount, index }: Props) => {
       isItemVisible &&
       visibleItems.push({
         id: 0,
-        title: element.title,
-        isBonus: element.isBonus,
+        title: variant.title,
+        isBonus: variant.isBonus,
       });
   }, [rouletteState.finished, isItemVisible]);
 
   return (
     <p
-      ref={elementsCount && index === elementsCount - 1 ? ref : undefined}
+      ref={
+        variantsCount &&
+        (index === variantsCount - 1 || index === variantsCount - 2)
+          ? ref
+          : undefined
+      }
       className={style.item}
-      key={element.id}
+      key={variant.id}
     >
-      {element.title}
+      {variant.title}
     </p>
   );
 };

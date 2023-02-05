@@ -1,4 +1,4 @@
-export type Element = {
+export type Variant = {
   id: number;
   title: string;
   isBonus?: boolean;

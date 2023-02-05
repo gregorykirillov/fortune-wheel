@@ -4,18 +4,18 @@ import cn from "classnames";
 import ItemsBlock from "./components/ItemsBlock";
 import { Button } from "@/components";
 import { DISTANCE, NEED_SORT_DATA, TIME, WIN_ITEM_NUM } from "@/config";
-import { Element } from "./types/Element";
+import { Variant } from "./types/Variant";
 import { RouletteState } from "./types/RouletteState";
 
 import style from "./style.module.scss";
-import { getApiUrl } from "@/helpers/getApiUrl";
+import { loadVariants, saveVariant } from "@/services/variants";
 
 export const FortuneContext = createContext<any>(null);
 
 const FortuneWheel = () => {
-  const [wonItem, setWonItem] = useState<Element | null>(null);
+  const [wonItem, setWonItem] = useState<Variant | null>(null);
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Array<Element>>([]);
+  const [data, setData] = useState<Array<Variant>>([]);
   const [blockHeight, setBlockHeight] = useState(0);
   const [blocks, setBlocks] = useState<Array<JSX.Element>>([]);
   const [rouletteState, setRouletteState] = useState<RouletteState>({
@@ -23,16 +23,16 @@ const FortuneWheel = () => {
     finished: false,
   });
 
-  const visibleItems = useMemo<Array<Element>>(() => [], []);
+  const visibleItems = useMemo<Array<Variant>>(() => [], []);
 
   const itemsRef = useRef<HTMLDivElement | null>(null);
   const itemsBlockRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    fetch(getApiUrl("/get-variants")).then(async (response) => {
-      if (response.status !== 200) return;
+    loadVariants().then(async (res) => {
+      const { data } = res;
+      if (!data) return;
 
-      const data = await response.json();
       setData(NEED_SORT_DATA ? sortData(data) : data);
     });
   }, []);
@@ -53,8 +53,8 @@ const FortuneWheel = () => {
         key={0}
         index={0}
         reference={itemsBlockRef}
-        elements={data}
-        elementsCount={1}
+        variants={data}
+        variantsCount={1}
       />,
     ]);
   }, [data]);
@@ -67,8 +67,15 @@ const FortuneWheel = () => {
         setRouletteState({ ...rouletteState, finished: true });
       }, TIME * 1000);
     }
-    if (visibleItems[WIN_ITEM_NUM]) setWonItem(visibleItems[WIN_ITEM_NUM]);
+    if (visibleItems[WIN_ITEM_NUM]) handleWin();
   }, [rouletteState]);
+
+  const handleWin = () => {
+    const winItem = visibleItems[WIN_ITEM_NUM];
+    setWonItem(winItem);
+
+    saveVariant(winItem);
+  };
 
   const setElementTransition = () => {
     const { current } = itemsRef;
@@ -76,7 +83,7 @@ const FortuneWheel = () => {
     current?.style.setProperty("transition", `all ease-in-out ${TIME}s`);
   };
 
-  const sortData = (data: Array<Element>) =>
+  const sortData = (data: Array<Variant>) =>
     data.sort(() => 0.5 - Math.random());
 
   const addBlocks = (itemsHeight: number, blockHeight: number) => {
@@ -88,9 +95,9 @@ const FortuneWheel = () => {
         <ItemsBlock
           key={ind + 1}
           index={ind}
-          elementsCount={insufficientCount}
+          variantsCount={insufficientCount}
           reference={itemsBlockRef}
-          elements={data}
+          variants={data}
         />
       )
     );
