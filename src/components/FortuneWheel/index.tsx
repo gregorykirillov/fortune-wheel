@@ -1,5 +1,4 @@
 import { createContext, useState, useMemo, useEffect, useRef } from "react";
-import axios from "axios";
 import cn from "classnames";
 
 import ItemsBlock from "./components/ItemsBlock";
@@ -30,10 +29,10 @@ const FortuneWheel = () => {
   const itemsBlockRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    axios.get(getApiUrl("/get-variants")).then((response) => {
+    fetch(getApiUrl("/get-variants")).then(async (response) => {
       if (response.status !== 200) return;
 
-      const { data } = response;
+      const data = await response.json();
       setData(NEED_SORT_DATA ? sortData(data) : data);
     });
   }, []);

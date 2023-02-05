@@ -15,7 +15,7 @@
 - Typescript
 - React
 - Webpack
-- Axios
+- Fetch
 - SASS
 - React Router v6
 
