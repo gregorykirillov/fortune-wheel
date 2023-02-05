@@ -81,16 +81,20 @@ const FortuneWheel = () => {
     data.sort(() => 0.5 - Math.random());
 
   const addBlocks = (itemsHeight: number, blockHeight: number) => {
-    const insufficientCount = Math.ceil(itemsHeight / blockHeight);
-    const insufficientElements = [...Array(insufficientCount)].map((_, ind) => (
-      <ItemsBlock
-        key={ind + 1}
-        index={ind}
-        elementsCount={insufficientCount}
-        reference={itemsBlockRef}
-        elements={data}
-      />
-    ));
+    const insufficientCount = Math.ceil(
+      (itemsHeight * (data.length + 2)) / (blockHeight * data.length)
+    );
+    const insufficientElements = [...Array(insufficientCount - 1)].map(
+      (_, ind) => (
+        <ItemsBlock
+          key={ind + 1}
+          index={ind}
+          elementsCount={insufficientCount}
+          reference={itemsBlockRef}
+          elements={data}
+        />
+      )
+    );
 
     setBlocks([...blocks, ...insufficientElements]);
   };
