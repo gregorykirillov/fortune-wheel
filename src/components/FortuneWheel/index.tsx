@@ -9,6 +9,7 @@ import { RouletteState } from "./types/RouletteState";
 
 import style from "./style.module.scss";
 import { loadVariants, saveVariant } from "@/services/variants";
+import { Preloader } from "@/uikit";
 
 export const FortuneContext = createContext<any>(null);
 
@@ -125,7 +126,7 @@ const FortuneWheel = () => {
       <div className={style.container}>
         <h1>Испытайте свою удачу</h1>
         {isLoading ? (
-          <div>Loading...</div>
+          <Preloader size="sm" />
         ) : (
           <div className={style.itemsContainer}>
             <div ref={itemsRef} className={style.itemBlocks}>

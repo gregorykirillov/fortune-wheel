@@ -1,0 +1,29 @@
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.preloaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.sm {
+    padding: 0;
+  }
+
+  &.md {
+    padding: 2rem;
+  }
+
+  .preloader {
+    height: 50px;
+    width: 50px;
+    border: 4px solid #cecece;
+    border-radius: 50%;
+    border-top-color: #949494;
+
+    animation: rotate 1s linear infinite;
+  }
+}
