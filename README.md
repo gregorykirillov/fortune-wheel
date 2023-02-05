@@ -1,16 +1,20 @@
 # fortune-wheel
 
-# Run the server
+## Run the server
 
 - ### `cd server`
 - ### `node server.mjs`
 
-# Run the client
+#### Server will be started on http://localhost:5000
+
+## Run the client
 
 - ### `npm i`
 - ### `npm start`
 
-# Specifications
+#### Client will be started on http://localhost:3000
+
+## Specifications
 
 - Typescript
 - React
@@ -19,6 +23,6 @@
 - SASS
 - React Router v6
 
-## _Need to be improved:_
+### _Need to be improved:_
 
 - _Use two blocks with data instead of generating the missing ones for scrolling_
